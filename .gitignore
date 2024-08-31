@@ -1,8 +1,8 @@
 # ROS
-*/devel
-*/.catkin\_tools
-*/logs
-*/build
+*devel*
+*.catkin\_tools
+*logs*
+*build*
 
 
 # Python
