@@ -3,6 +3,7 @@
 *.catkin\_tools
 *logs*
 *build*
+*.rosinstall
 
 
 # Python

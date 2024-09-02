@@ -1,3 +1,3 @@
-1) Installare moduli ARI
+1) Testare SLAM
 2) Fare script per build e sourcing
 3) Fare script per avviare nodi ros (launcher o come per mobile)
