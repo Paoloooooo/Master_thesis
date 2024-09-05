@@ -115,14 +115,9 @@ class Navigator:
             rospy.logwarn("Initial pose not set. Navigation may be imprecise.")
 
         self._navigation_completed = False
-
-        rospy.loginfo(f"{self._goal}")
         self._goal.goal.target_pose = Pose.pose_to_posestamped(pose)
-
-        self._goal.header.stamp = rospy.get_rostime()
-        self._goal.header.frame_id = 'map'
         
-        rospy.loginfo(f"{self._goal}")
+        rospy.loginfo(f"Sending goal: {self._goal}")
         self._navigation_client.send_goal(
             self._goal.goal, feedback_cb=self._got_feedback, done_cb=self._navigation_ended
         )
