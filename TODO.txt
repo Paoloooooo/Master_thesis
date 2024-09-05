@@ -1,3 +1,5 @@
-1) Testare SLAM
-2) Fare script per build e sourcing
-3) Fare script per avviare nodi ros (launcher o come per mobile)
+1) Implementare costmap_clearer ed aggiungere a launcher
+
+
+4a) Cambiare tutti i "transform_tolerance: 0.9" in "transform_tolerance: 0.2", mi servivano per far funzionare la imulazione
+4b) Reimpostare parametri default in /home/paolo/Scrivania/tesi/ari_ws/src/pal_navigation_cfg_public/pal_navigation_cfg_ari/config/localization/amcl.yaml
