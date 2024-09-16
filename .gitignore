@@ -4,6 +4,7 @@
 *logs*
 *build*
 *.rosinstall
+*pal_deploy*
 
 
 # Python
