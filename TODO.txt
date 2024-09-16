@@ -1,4 +1,6 @@
 1) Implementare costmap_clearer ed aggiungere a launcher
+2) Location_to_pose node
+3) tablet e voice node
 
 
 4a) Cambiare tutti i "transform_tolerance: 0.9" in "transform_tolerance: 0.2", mi servivano per far funzionare la imulazione
