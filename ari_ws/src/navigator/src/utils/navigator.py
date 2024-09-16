@@ -1,18 +1,23 @@
 import rospy
-from threading import Thread
 
 from move_base_msgs.msg import (
-    MoveBaseAction,
     MoveBaseFeedback,
-    MoveBaseActionGoal,
     MoveBaseActionResult,
 )
 
 import actionlib
 from actionlib_msgs.msg import GoalStatus
 
+from constants.navigator import (
+    INITIAL_POSE_MESSAGE,
+    INITIAL_POSE_TOPIC,
+    NAVIGATION_CLIENT_GOAL,
+    NAVIGATION_CLIENT_NAME,
+    NAVIGATION_CLIENT_TIMEOUT,
+    NAVIGATION_CLIENT_TYPE,
+)
 from utils.pose import Pose
-from geometry_msgs.msg import PoseWithCovarianceStamped
+
 
 class Navigator:
     """
@@ -39,19 +44,21 @@ class Navigator:
         """
         Initializes a new instance of the Navigator class.
         """
-        rospy.init_node("navigator_node")
+        rospy.init_node("navigator")
 
+        ## Private attributes ##
         self._current_pose = None
         self._target_pose = None
         self._navigation_completed = True
         self._initial_pose_set = False
 
+        ## Ros attributes ##
         self._navigation_client = actionlib.SimpleActionClient(
-            "move_base", MoveBaseAction
+            NAVIGATION_CLIENT_NAME, NAVIGATION_CLIENT_TYPE
         )
-        self._goal = MoveBaseActionGoal()
+        self._goal = NAVIGATION_CLIENT_GOAL
         connected = self._navigation_client.wait_for_server(
-            timeout=rospy.Duration(secs=10)
+            timeout=NAVIGATION_CLIENT_TIMEOUT
         )
         if not connected:
             rospy.logfatal("Unable to connect to move base server")
@@ -60,24 +67,8 @@ class Navigator:
         rospy.loginfo("Move base client ready")
 
         self._initial_pose_publisher = rospy.Publisher(
-            "initialpose", PoseWithCovarianceStamped, queue_size=1
+            INITIAL_POSE_TOPIC, INITIAL_POSE_MESSAGE, queue_size=1
         )
-
-        # Setting amcl params
-        """
-        bool
-        name: "force_update_after_initialpose"
-        value: False
-
-        int
-        name: "max_particles"
-        value: 5000
-
-        double
-        name: "transform_tolerance"
-        value: 0.1
-
-        """
 
         rospy.loginfo("Initial pose publisher ready")
         rospy.loginfo("Initialization ended")
@@ -116,10 +107,12 @@ class Navigator:
 
         self._navigation_completed = False
         self._goal.goal.target_pose = Pose.pose_to_posestamped(pose)
-        
+
         rospy.loginfo(f"Sending goal: {self._goal}")
         self._navigation_client.send_goal(
-            self._goal.goal, feedback_cb=self._got_feedback, done_cb=self._navigation_ended
+            self._goal.goal,
+            feedback_cb=self._got_feedback,
+            done_cb=self._navigation_ended,
         )
 
         rospy.logdebug(f"Starting navigating to: {pose}")
@@ -149,14 +142,12 @@ class Navigator:
     def _got_feedback(self, feedback: MoveBaseFeedback):
         self._current_pose = Pose.posestamped_to_pose(feedback.base_position)
 
-        rospy.logdebug_throttle(
-            0.5, f"Received feedback: {feedback}"
-        )
+        rospy.logdebug_throttle(0.5, f"Received feedback: {feedback}")
 
     def _navigation_ended(self, status: GoalStatus, result: MoveBaseActionResult):
         self._navigation_completed = True
 
-        rospy.loginfo(f'{status}\n{result}')
+        rospy.loginfo(f"{status}\n{result}")
 
         return
         # TODO: status management

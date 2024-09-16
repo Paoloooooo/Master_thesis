@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
 import rospy
-from constants.costmap_clearer import RATE, SERVICE_NAME, SERVICE_REQUEST ,SERVICE_TYPE
+from constants.costmap_clearer import RATE, SERVICE_NAME, SERVICE_REQUEST, SERVICE_TYPE
+
 
 class Clearer:
     # TODO: implement this -> rospy.Rate
-    
+
     def __init__(self):
         rospy.init_node("costmap_clearer")
 

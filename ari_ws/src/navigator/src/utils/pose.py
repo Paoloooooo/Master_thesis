@@ -92,12 +92,12 @@ class Pose:
 
         result.pose.orientation.z = sin(radians(pose._heading) / 2)
         result.pose.orientation.w = cos(radians(pose._heading) / 2)
-        
+
         result.header.stamp = get_rostime()
-        result.header.frame_id = 'map'
+        result.header.frame_id = "map"
         result.header.seq = cls.POSE_SEQ
-        cls.POSE_SEQ+=1
-        
+        cls.POSE_SEQ += 1
+
         return result
 
     @classmethod
@@ -126,7 +126,7 @@ class Pose:
         result.pose.pose.orientation.w = cos(radians(pose._heading) / 2)
 
         result.header.stamp = get_rostime()
-        result.header.frame_id = 'map'
+        result.header.frame_id = "map"
         result.header.seq = cls.POSEWITHCOVARIANCE_SEQ
         cls.POSEWITHCOVARIANCE_SEQ += 1
 

@@ -1,1 +1,4 @@
-__all__ = ["costmap_clearer", ]
+__all__ = [
+    "costmap_clearer",
+    "navigator",
+]
