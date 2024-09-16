@@ -9,8 +9,13 @@
   <arg name="extra_gz_resource_path" default=""/>
 
   <!-- start up navigator -->
-  <node name="navigator_node" pkg="navigator" type="first_example.py" output="screen">
+  <node name="navigator" pkg="navigator" type="first_example.py" output="screen">
     
+  </node>
+
+  <!-- start up costmap_clearer -->
+  <node name="costmap_clearer" pkg="navigator" type="costmap_clearer.py" output="screen">
+  
   </node>
 
   <!-- 
